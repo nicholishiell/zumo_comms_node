@@ -15,17 +15,17 @@ class zumo_comms_node(object):
                 #print("LINE: " + line)
                 words = line.split(" ")
                 #rospy.loginfo("LINE: " + line)
-                if len(line) > 0:
-                        prox_msg = ZumoProximities()
-                        try:
-                                prox_msg.front = int(words[4])
-                                prox_msg.left = 0
-                                prox_msg.right = 0
-                        except: # Catch all 
-                                exception = sys.exc_info()[0]
-                                print("Exception in zumo_comms_node: " + str(exception))
-                                
-                        self.proxPublisher.publish(prox_msg)
+                #if len(line) > 0:
+                #        prox_msg = ZumoProximities()
+                #        try:
+                #                prox_msg.front = int(words[4])
+                #                prox_msg.left = 0
+                #                prox_msg.right = 0
+                #        except: # Catch all 
+                #                exception = sys.exc_info()[0]
+                #                print("Exception in zumo_comms_node: " + str(exception))
+                #                
+                #        self.proxPublisher.publish(prox_msg)
                                 
         def TwistCallback(self, twistMessage):
                 #print("Command Recieved!")
