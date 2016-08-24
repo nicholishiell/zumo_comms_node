@@ -16,6 +16,7 @@ class zumo_comms_node(object):
                 #print("LINE: " + line)
                 words = line.split("\t")
                 #rospy.loginfo("LINE: " + line)
+<<<<<<< HEAD
                 if len(line) > 0:
                         currentLinearVelMsg = Float64()
                         try:
@@ -25,6 +26,19 @@ class zumo_comms_node(object):
                                 print("Exception in zumo_comms_node: " + str(exception))                               
 
                         self.currentLinearVelPublisher.publish(currentLinearVelMsg);
+=======
+                #if len(line) > 0:
+                #        prox_msg = ZumoProximities()
+                #        try:
+                #                prox_msg.front = int(words[4])
+                #                prox_msg.left = 0
+                #                prox_msg.right = 0
+                #        except: # Catch all 
+                #                exception = sys.exc_info()[0]
+                #                print("Exception in zumo_comms_node: " + str(exception))
+                #                
+                #        self.proxPublisher.publish(prox_msg)
+>>>>>>> b934c172b2d3536dd738f7932d5deb0c1327d8e2
                                 
         def TwistCallback(self, twistMessage):
                 #print("Command Recieved!")
