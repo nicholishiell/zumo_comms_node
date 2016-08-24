@@ -6,6 +6,7 @@ import sys
 from geometry_msgs.msg import Twist
 from bupimo_msgs.msg import ZumoProximities
 from std_msgs.msg import String
+from std_msgs.msg import Float64
 
 from SerialDataGateway import SerialDataGateway
 
@@ -13,19 +14,17 @@ class zumo_comms_node(object):
         
 	def ReceivedLine(self,  line):
                 #print("LINE: " + line)
-                words = line.split(" ")
+                words = line.split("\t")
                 #rospy.loginfo("LINE: " + line)
                 if len(line) > 0:
-                        prox_msg = ZumoProximities()
+                        currentLinearVelMsg = Float64()
                         try:
-                                prox_msg.front = int(words[4])
-                                prox_msg.left = 0
-                                prox_msg.right = 0
+                                currentLinearVelMsg.data = float(words[3])
                         except: # Catch all 
                                 exception = sys.exc_info()[0]
-                                print("Exception in zumo_comms_node: " + str(exception))
-                                
-                        self.proxPublisher.publish(prox_msg)
+                                print("Exception in zumo_comms_node: " + str(exception))                               
+
+                        self.currentLinearVelPublisher.publish(currentLinearVelMsg);
                                 
         def TwistCallback(self, twistMessage):
                 #print("Command Recieved!")
@@ -48,8 +47,8 @@ class zumo_comms_node(object):
                 # subscriptions
                 rospy.Subscriber("cmd_vel", Twist, self.TwistCallback)
                     
-                self.proxPublisher = rospy.Publisher('zumo_prox', ZumoProximities, queue_size = 1)
-                    
+                self.currentLinearVelPublisher = rospy.Publisher('currentLinearVel', Float64, queue_size = 1)
+                
                 # CREATE A SERIAL_DATA_GATEWAY OBJECT 
                 # pass it a function pointer to _HandleReceivedLine
                 self.SerialDataGateway = SerialDataGateway(port, baudRate,  self.ReceivedLine)
